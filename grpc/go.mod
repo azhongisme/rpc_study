@@ -1,0 +1,5 @@
+module grpc_study
+
+go 1.23.4
+
+require google.golang.org/protobuf v1.33.0
