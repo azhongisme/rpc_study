@@ -7,11 +7,15 @@ import (
 	"log"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
 )
 
 func main() {
-	conn, err := grpc.Dial("127.0.0.1:8002", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	creds, err := credentials.NewClientTLSFromFile("../cert/server.pem", "*.zhong")
+	if err != nil {
+		log.Fatal("证书错误", err)
+	}
+	conn, err := grpc.Dial("127.0.0.1:8002", grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Fatal("connect error: ", err)
 	}

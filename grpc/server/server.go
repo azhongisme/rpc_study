@@ -7,10 +7,16 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 func main() {
-	rpcServer := grpc.NewServer()
+	cred, err := credentials.NewServerTLSFromFile("../cert/server.pem", "../cert/server.key")
+	if err != nil {
+		log.Fatal("证书生成错误", err)
+	}
+
+	rpcServer := grpc.NewServer(grpc.Creds(cred))
 
 	service.RegisterProductServiceServer(rpcServer, model.ProductService)
 
